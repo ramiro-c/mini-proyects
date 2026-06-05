@@ -14,7 +14,11 @@ services:
       target: dev
     command: ["npx", "tsx", "src/index.ts"]
     environment:
-      EMAIL_PROVIDER: "null"
+      EMAIL_PROVIDER: "smtp"
+      SMTP_HOST: mailhog
+      SMTP_PORT: "1025"
       PORT: "3000"
     ports:
       - "3000:3000"
+    depends_on:
+      - mailhog
