@@ -18,5 +18,7 @@ export function createEmailSender(provider: EmailProvider): EmailSender {
       return fileEmailSender(process.env.LOG_DIR ?? "/tmp")
     case "null":
       return nullEmailSender()
+    default:
+      throw new Error(`Unknown provider: ${provider}`)
   }
 }
