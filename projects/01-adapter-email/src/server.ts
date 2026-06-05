@@ -2,7 +2,8 @@ import { createServer } from "node:http"
 import { createEmailSender } from "./providers/index"
 import { createUserService } from "./services/user.service"
 
-let sender = createEmailSender((process.env.EMAIL_PROVIDER ?? "null") as any)
+let currentProvider = process.env.EMAIL_PROVIDER ?? "null"
+let sender = createEmailSender(currentProvider as any)
 let userService = createUserService(sender)
 
 const server = createServer(async (req, res) => {
@@ -12,7 +13,7 @@ const server = createServer(async (req, res) => {
     const url = new URL(req.url ?? "/", `http://${req.headers.host}`)
 
     if (req.method === "GET" && url.pathname === "/provider") {
-      res.end(JSON.stringify({ provider: process.env.EMAIL_PROVIDER ?? "null" }))
+      res.end(JSON.stringify({ provider: currentProvider }))
       return
     }
 
@@ -20,6 +21,7 @@ const server = createServer(async (req, res) => {
       let body = ""
       for await (const chunk of req) body += chunk
       const { provider } = JSON.parse(body)
+      currentProvider = provider
       sender = createEmailSender(provider)
       userService = createUserService(sender)
       res.end(JSON.stringify({ provider }))
