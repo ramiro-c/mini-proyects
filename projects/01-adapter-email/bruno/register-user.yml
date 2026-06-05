@@ -1,0 +1,24 @@
+info:
+  name: Register user
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3000/users/register
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Ramiro",
+        "email": "rami@test.com"
+      }
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("status 200", () => expect(res.status).to.equal(200));
+
+settings:
+  encodeUrl: true

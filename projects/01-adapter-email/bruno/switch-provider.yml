@@ -1,0 +1,23 @@
+info:
+  name: Switch provider
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: http://localhost:3000/provider
+  body:
+    type: json
+    data: |-
+      {
+        "provider": "file"
+      }
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("status 200", () => expect(res.status).to.equal(200));
+
+settings:
+  encodeUrl: true
