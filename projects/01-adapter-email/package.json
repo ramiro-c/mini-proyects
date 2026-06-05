@@ -2,9 +2,10 @@
   "name": "01-adapter-email",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "demo": "tsx src/index.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "nodemailer": "^6.9.16"

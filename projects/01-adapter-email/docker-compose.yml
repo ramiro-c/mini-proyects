@@ -12,6 +12,7 @@ services:
       context: .
       dockerfile: ../../Dockerfile
       target: dev
+    command: ["npm", "run", "dev"]
     environment:
       EMAIL_PROVIDER: smtp
       SMTP_HOST: mailhog
