@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer"
-import type { Email, EmailSender } from "../email.adapter.js"
+import type { Email, EmailSender } from "../email.adapter"
 
 type SmtpConfig = {
   host: string

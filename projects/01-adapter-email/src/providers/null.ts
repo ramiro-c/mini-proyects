@@ -1,4 +1,4 @@
-import type { Email, EmailSender } from "../email.adapter.js"
+import type { Email, EmailSender } from "../email.adapter"
 
 export function nullEmailSender(): EmailSender {
   return {

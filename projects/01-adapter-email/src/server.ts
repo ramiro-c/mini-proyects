@@ -1,9 +1,9 @@
 import { createServer } from "node:http"
-import { createEmailSender } from "./providers/index"
+import { createEmailSender, EmailProvider } from "./providers/index"
 import { createUserService } from "./services/user.service"
 
 let currentProvider = process.env.EMAIL_PROVIDER ?? "null"
-let sender = createEmailSender(currentProvider as any)
+let sender = createEmailSender(currentProvider as EmailProvider)
 let userService = createUserService(sender)
 
 const server = createServer(async (req, res) => {

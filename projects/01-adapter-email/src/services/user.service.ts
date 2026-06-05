@@ -1,4 +1,4 @@
-import type { EmailSender } from "../email.adapter.js"
+import type { EmailSender } from "../email.adapter"
 
 export type User = { name: string; email: string }
 

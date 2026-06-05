@@ -1,7 +1,7 @@
-import type { EmailSender } from "../email.adapter.js"
-import { smtpEmailSender } from "../providers/smtp.js"
-import { fileEmailSender } from "../providers/file.js"
-import { nullEmailSender } from "../providers/null.js"
+import type { EmailSender } from "../email.adapter"
+import { smtpEmailSender } from "../providers/smtp"
+import { fileEmailSender } from "../providers/file"
+import { nullEmailSender } from "../providers/null"
 
 export type EmailProvider = "smtp" | "file" | "null"
 

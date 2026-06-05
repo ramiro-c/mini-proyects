@@ -1,6 +1,6 @@
 import { appendFile } from "node:fs/promises"
 import { join } from "node:path"
-import type { Email, EmailSender } from "../email.adapter.js"
+import type { Email, EmailSender } from "../email.adapter"
 
 export function fileEmailSender(outDir: string): EmailSender {
   return {

@@ -10,14 +10,16 @@ http:
     type: json
     data: |-
       {
-        "provider": "file"
+        "provider": "smtp"
       }
 
 runtime:
   scripts:
     - type: tests
-      code: |-
-        test("status 200", () => expect(res.status).to.equal(200));
+      code: test("status 200", () => expect(res.status).to.equal(200));
 
 settings:
   encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
