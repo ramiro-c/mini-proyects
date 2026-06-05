@@ -1,0 +1,27 @@
+name: adapter-email
+
+services:
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  app:
+    build:
+      context: .
+      dockerfile: ../../Dockerfile
+      target: dev
+    environment:
+      EMAIL_PROVIDER: smtp
+      SMTP_HOST: mailhog
+      SMTP_PORT: "1025"
+      SMTP_USER: ""
+      SMTP_PASS: ""
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mailhog
