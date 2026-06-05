@@ -2,14 +2,17 @@
   "name": "01-adapter-email",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/fastify.ts",
+    "dev:http": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/fastify.js",
     "test": "vitest",
     "test:run": "vitest run"
   },
   "dependencies": {
-    "nodemailer": "^6.9.16"
+    "fastify": "^5.8.5",
+    "nodemailer": "^6.9.16",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
