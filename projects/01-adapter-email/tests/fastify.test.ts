@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest"
-import { createServer } from "../src/fastify-server"
+import { createServer } from "../src/server"
 
 describe("Fastify server", () => {
   let app: Awaited<ReturnType<typeof createServer>>

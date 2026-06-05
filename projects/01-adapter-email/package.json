@@ -2,10 +2,9 @@
   "name": "01-adapter-email",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/fastify.ts",
-    "dev:http": "tsx watch src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/fastify.js",
+    "start": "node dist/server.js",
     "test": "vitest",
     "test:run": "vitest run"
   },
