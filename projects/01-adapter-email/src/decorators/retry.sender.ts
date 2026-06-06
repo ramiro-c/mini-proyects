@@ -20,9 +20,9 @@ export function retrySender(inner: EmailSender, config: RetryConfig): EmailSende
 					lastError = err;
 					if (!(err instanceof TransientError)) throw err;
 					if (attempt < config.maxRetries - 1) {
-						const exp = Math.min(config.baseDelayMs * 2 ** attempt, config.maxDelayMs);
-						const jitter = Math.random() * exp;
-						await new Promise((r) => setTimeout(r, jitter));
+				const maxDelay = Math.min(config.baseDelayMs * 2 ** attempt, config.maxDelayMs);
+				const delay = Math.random() * maxDelay;
+				await new Promise((r) => setTimeout(r, delay));
 					}
 				}
 			}
