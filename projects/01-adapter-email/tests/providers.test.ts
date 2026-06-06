@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { fileEmailSender } from "../src/providers/file";
-import { createEmailSender } from "../src/providers/index";
+import { createEmailSender, type EmailProviderType } from "../src/providers/index";
 import { nullEmailSender } from "../src/providers/null";
 import { smtpEmailSender } from "../src/providers/smtp";
 
@@ -24,8 +24,7 @@ describe("createEmailSender", () => {
 	});
 
 	it("throws for unknown provider", () => {
-		// biome-ignore lint/suspicious/noExplicitAny: we need to pass an invalid value
-		expect(() => createEmailSender("unknown" as any)).toThrow("Unknown provider");
+		expect(() => createEmailSender("unknown" as EmailProviderType)).toThrow("Unknown provider");
 	});
 });
 
