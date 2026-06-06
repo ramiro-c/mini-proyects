@@ -2,13 +2,14 @@
 	"name": "01-adapter-email",
 	"private": true,
 	"scripts": {
-		"dev": "tsx watch src/server.ts",
+		"dev": "tsx watch src/index.ts",
 		"build": "tsc",
 		"start": "node dist/server.js",
 		"test": "vitest",
 		"test:run": "vitest run"
 	},
 	"dependencies": {
+		"dotenv": "^17.4.2",
 		"fastify": "^5.8.5",
 		"nodemailer": "^6.9.16",
 		"pino": "^10.3.1",
