@@ -3,6 +3,7 @@ import type { Logger } from "pino";
 
 export function loggingSender(inner: EmailSender, logger: Logger): EmailSender {
   return {
+    ...inner,
     async send(email: Email): Promise<void> {
       const child = logger.child({ to: email.to, subject: email.subject });
       const start = Date.now();
