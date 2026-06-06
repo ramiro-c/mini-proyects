@@ -7,7 +7,8 @@
 		"format": "biome format --write",
 		"lint": "biome lint",
 		"check": "biome check --write",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prepare": "husky"
 	},
 	"repository": {
 		"type": "git",
@@ -21,7 +22,13 @@
 		"url": "https://github.com/ramiro-c/mini-proyects/issues"
 	},
 	"homepage": "https://github.com/ramiro-c/mini-proyects#readme",
+	"lint-staged": {
+		"*.{ts,tsx,json,js}": "biome check --write --unsafe",
+		"projects/01-adapter-email/**/*.ts": "vitest run --root projects/01-adapter-email"
+	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.16"
+		"@biomejs/biome": "2.4.16",
+		"husky": "^9.1.7",
+		"lint-staged": "^17.0.7"
 	}
 }
