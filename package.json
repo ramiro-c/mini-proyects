@@ -1,0 +1,27 @@
+{
+	"name": "mini-proyects",
+	"version": "1.0.0",
+	"description": "Backend projects to learn production design patterns and microservices in practice.",
+	"main": "index.js",
+	"scripts": {
+		"format": "biome format --write",
+		"lint": "biome lint",
+		"check": "biome check --write",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ramiro-c/mini-proyects.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/ramiro-c/mini-proyects/issues"
+	},
+	"homepage": "https://github.com/ramiro-c/mini-proyects#readme",
+	"devDependencies": {
+		"@biomejs/biome": "2.4.16"
+	}
+}

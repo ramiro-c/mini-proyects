@@ -1,51 +1,57 @@
-import Fastify from "fastify"
-import { createEmailSender, EmailProvider } from "./providers/index"
-import { createUserService } from "./services/user.service"
-import { ChangeProviderSchema, RegisterUserSchema, ResetPasswordSchema } from "./schemas"
+import Fastify from "fastify";
+import { createEmailSender, type EmailProviderType } from "./providers/index";
+import { ChangeProviderSchema, RegisterUserSchema, ResetPasswordSchema } from "./schemas";
+import { createUserService } from "./services/user.service";
 
-let currentProvider = process.env.EMAIL_PROVIDER ?? "null"
-let sender = createEmailSender(currentProvider as EmailProvider)
-let userService = createUserService(sender)
+let currentProvider = process.env.EMAIL_PROVIDER ?? "null";
+let sender = createEmailSender(currentProvider as EmailProviderType);
+let userService = createUserService(sender);
 
 export function createServer() {
-  const fastify = Fastify()
+	const fastify = Fastify();
 
-  fastify.get("/provider", async () => {
-    return { provider: currentProvider }
-  })
+	fastify.get("/provider", async () => {
+		return { provider: currentProvider };
+	});
 
-  fastify.post("/provider", async (request, reply) => {
-    const result = ChangeProviderSchema.safeParse(request.body)
-    if (!result.success) {
-      return reply.status(400).send({ error: "Invalid provider", details: result.error.errors })
-    }
+	fastify.post("/provider", async (request, reply) => {
+		const result = ChangeProviderSchema.safeParse(request.body);
+		if (!result.success) {
+			return reply
+				.status(400)
+				.send({ error: "Invalid provider", details: result.error.issues });
+		}
 
-    currentProvider = result.data.provider
-    sender = createEmailSender(currentProvider)
-    userService = createUserService(sender)
+		currentProvider = result.data.provider;
+		sender = createEmailSender(currentProvider as EmailProviderType);
+		userService = createUserService(sender);
 
-    return { provider: currentProvider }
-  })
+		return { provider: currentProvider };
+	});
 
-  fastify.post("/users/register", async (request, reply) => {
-    const result = RegisterUserSchema.safeParse(request.body)
-    if (!result.success) {
-      return reply.status(400).send({ error: "Invalid user data", details: result.error.errors })
-    }
+	fastify.post("/users/register", async (request, reply) => {
+		const result = RegisterUserSchema.safeParse(request.body);
+		if (!result.success) {
+			return reply
+				.status(400)
+				.send({ error: "Invalid user data", details: result.error.issues });
+		}
 
-    await userService.register(result.data)
-    return { ok: true }
-  })
+		await userService.register(result.data);
+		return { ok: true };
+	});
 
-  fastify.post("/users/reset-password", async (request, reply) => {
-    const result = ResetPasswordSchema.safeParse(request.body)
-    if (!result.success) {
-      return reply.status(400).send({ error: "Invalid user data", details: result.error.errors })
-    }
+	fastify.post("/users/reset-password", async (request, reply) => {
+		const result = ResetPasswordSchema.safeParse(request.body);
+		if (!result.success) {
+			return reply
+				.status(400)
+				.send({ error: "Invalid user data", details: result.error.issues });
+		}
 
-    await userService.resetPassword(result.data)
-    return { ok: true }
-  })
+		await userService.resetPassword(result.data);
+		return { ok: true };
+	});
 
-  return fastify
+	return fastify;
 }

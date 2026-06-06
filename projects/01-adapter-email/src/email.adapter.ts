@@ -1,9 +1,9 @@
 export interface Email {
-  to: string
-  subject: string
-  body: string
+	to: string;
+	subject: string;
+	body: string;
 }
 
 export interface EmailSender {
-  send(email: Email): Promise<void>
+	send(email: Email): Promise<void>;
 }
