@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import Fastify from "fastify";
+import { describe, expect, it } from "vitest";
 import { registerHealthRoutes } from "../../src/routes/health.routes";
 
 describe("GET /health", () => {

@@ -24,7 +24,9 @@ describe("createEmailSender", () => {
 	});
 
 	it("throws for unknown provider", () => {
-		expect(() => createEmailSender("unknown" as EmailProviderType)).toThrow("Unknown provider");
+		expect(() => createEmailSender("unknown" as EmailProviderType)).toThrow(
+			"Unknown provider",
+		);
 	});
 });
 
