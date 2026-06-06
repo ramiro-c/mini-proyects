@@ -12,6 +12,7 @@ type CbEvent = "fail" | "success" | "timeout";
 
 export type CircuitBreakerSender = EmailSender & {
   getState(): CbState;
+  destroy(): void;
 };
 
 export function circuitBreakerSender(
@@ -31,10 +32,13 @@ export function circuitBreakerSender(
   let testRequestInFlight = false;
   let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
 
-  machine.onEnter("closed", () => {
+  function clearTimeoutHandle() {
     clearTimeout(timeoutHandle);
     timeoutHandle = undefined;
-  });
+  }
+
+  machine.onEnter("closed", clearTimeoutHandle);
+  machine.onEnter("half_open", () => { timeoutHandle = undefined; });
 
   function scheduleTimeout() {
     timeoutHandle = setTimeout(() => {
@@ -48,6 +52,10 @@ export function circuitBreakerSender(
   return {
     getState() {
       return machine.state;
+    },
+
+    destroy() {
+      clearTimeoutHandle();
     },
 
     async send(email: Email): Promise<void> {

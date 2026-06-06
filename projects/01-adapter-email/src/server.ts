@@ -15,7 +15,12 @@ export function createServer() {
 
   registerProviderRoutes(fastify, {
     getProvider: () => currentProvider,
-    setSender: (s: EmailSender) => { sender = s; },
+    setSender: (s: EmailSender) => {
+      if ("destroy" in sender && typeof (sender as CircuitBreakerSender).destroy === "function") {
+        (sender as CircuitBreakerSender).destroy();
+      }
+      sender = s;
+    },
   });
 
   registerUserRoutes(fastify, {
@@ -25,7 +30,7 @@ export function createServer() {
   registerHealthRoutes(fastify, {
     getProvider: () => currentProvider,
     getCircuitBreakerState: () => {
-      if ("getState" in sender && typeof (sender as any).getState === "function") {
+      if ("getState" in sender && typeof (sender as CircuitBreakerSender).getState === "function") {
         return (sender as CircuitBreakerSender).getState();
       }
       return "unknown";
