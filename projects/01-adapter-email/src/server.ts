@@ -1,13 +1,14 @@
 import Fastify from "fastify";
 import type { EmailSender } from "./email.adapter";
-import { createEmailSender, EmailProvider, type EmailProviderType } from "./providers/index";
+import { type EmailProviderType } from "./providers/index";
+import { createRobustSender } from "./sender.factory";
 import { registerProviderRoutes } from "./routes/provider.routes";
 import { registerUserRoutes } from "./routes/user.routes";
 import { registerHealthRoutes } from "./routes/health.routes";
 import type { CircuitBreakerSender } from "./decorators/circuit-breaker.sender";
 
 let currentProvider = process.env.EMAIL_PROVIDER ?? "null";
-let sender = createEmailSender(currentProvider as EmailProviderType);
+let sender = createRobustSender({ provider: currentProvider as EmailProviderType });
 
 export function createServer() {
   const fastify = Fastify();
