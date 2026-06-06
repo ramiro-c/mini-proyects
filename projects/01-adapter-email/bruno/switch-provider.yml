@@ -16,7 +16,9 @@ http:
 runtime:
   scripts:
     - type: tests
-      code: test("status 200", () => expect(res.status).to.equal(200));
+      code: |-
+        test("status 200", () => expect(res.status).to.equal(200));
+        test("returns provider", () => expect(res.body.provider).to.equal("smtp"));
 
 settings:
   encodeUrl: true

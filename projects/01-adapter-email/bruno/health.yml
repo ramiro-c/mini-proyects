@@ -1,0 +1,21 @@
+info:
+  name: Health check
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: http://localhost:3000/health
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("status 200", () => expect(res.status).to.equal(200));
+        test("has status field", () => expect(res.body.status).toBeDefined());
+        test("has provider field", () => expect(res.body.provider).toBeDefined());
+        test("has circuitBreaker field", () => expect(res.body.circuitBreaker).toBeDefined());
+        test("has uptime field", () => expect(res.body.uptime).toBeDefined());
+
+settings:
+  encodeUrl: true
