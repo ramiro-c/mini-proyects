@@ -6,7 +6,11 @@
 		"build": "tsc",
 		"start": "node dist/server.js",
 		"test": "vitest",
-		"test:run": "vitest run"
+		"test:run": "vitest run",
+		"test:unit": "vitest run --exclude 'tests/integration/**'",
+		"test:integration": "vitest run tests/integration",
+		"test:smoke": "vitest run tests/integration/smoke.integration.test.ts",
+		"demo": "tsx scripts/circuit-breaker-demo.ts"
 	},
 	"dependencies": {
 		"dotenv": "^17.4.2",

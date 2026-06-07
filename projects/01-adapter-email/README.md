@@ -1,19 +1,31 @@
-# Project 01 - Adapter Pattern (Email Providers)
+# Project 01 — Adapter Pattern (Email Providers)
 
-Implementación del patrón **Adapter** para proveedores de email.
+Implementation of the **Adapter** pattern for email providers, with **Decorator** extensions (logging, retry, circuit breaker) and a **State Machine** for circuit breaker lifecycle.
 
 ## Stack
 
 - **Node.js** + **TypeScript**
-- **Fastify** - HTTP server
-- **Zod** - Validación de schemas
-- **Vitest** - Tests
+- **Fastify** — HTTP server
+- **Zod** — Schema validation
+- **Pino** — Logging
+- **Nodemailer** — SMTP
+- **Vitest** — Tests
+- **Biome** — Lint/format
 
 ## Providers
 
-- **SMTP** - nodemailer (configurable con MailHog o SMTP real)
-- **File** - escribe emails a un archivo log
-- **Null** - adapter silencioso (perfecto para tests/dev)
+| Provider | Description |
+|----------|-------------|
+| **SMTP** | Nodemailer (MailHog or real SMTP) |
+| **File** | Writes emails to a log file |
+| **Null** | Silent adapter (dev/tests) |
+
+## Patterns implemented
+
+- **Adapter** — uniform `EmailSender` interface for SMTP, File, Null
+- **Strategy** — provider swapped at runtime via `/provider` endpoint
+- **Decorator** — logging, retry, and circuit breaker wrappers around any sender
+- **State Machine** — circuit breaker states (Closed → Open → Half-Open → Closed)
 
 ## Setup
 
@@ -26,25 +38,34 @@ npm run dev
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/provider` | Retorna el provider actual |
-| `POST` | `/provider` | Cambia el provider runtime (`{ provider: "smtp" \| "file" \| "null" }`) |
-| `POST` | `/users/register` | Registra usuario + envía welcome email |
-| `POST` | `/users/reset-password` | Reset password + envía email |
+| `GET` | `/health` | Health check with provider + circuit breaker status |
+| `GET` | `/provider` | Current provider |
+| `POST` | `/provider` | Switch provider (`{ provider: "smtp" \| "file" \| "null" }`) |
+| `POST` | `/users/register` | Register user + send welcome email |
+| `POST` | `/users/reset-password` | Reset password + send email |
 
-## Tests
+## Scripts
 
 ```bash
-# Watch mode
-npm run test
+npm run dev                # Dev server with watch
+npm run build              # TypeScript compile
+npm run start              # Run compiled dist
 
-# Single run
-npm run test:run
+# Tests
+npm run test               # Vitest watch mode
+npm run test:run           # All tests (single run)
+npm run test:unit          # Unit tests only (excludes integration)
+npm run test:integration   # Integration tests (includes smoke)
+npm run test:smoke         # Smoke tests only
+
+# Demo
+npm run demo               # Circuit breaker lifecycle demo
 ```
 
 ## Environment Variables
 
 ```bash
-EMAIL_PROVIDER=null          # smtp, file, null
+EMAIL_PROVIDER=null        # smtp, file, null
 SMTP_HOST=localhost
 SMTP_PORT=1025
 SMTP_USER=
@@ -53,7 +74,7 @@ LOG_DIR=/tmp
 PORT=3000
 ```
 
-## Docker (MailHog para testing SMTP)
+## Docker (MailHog)
 
 ```bash
 docker compose up
@@ -61,18 +82,48 @@ docker compose up
 
 MailHog UI: `http://localhost:8025`
 
-## Estructura
+## Structure
 
 ```
 src/
-  email.adapter.ts    # Interfaces
-  providers/          # Adapters (smtp, file, null)
-  services/           # Business logic
-  schemas.ts          # Zod schemas
-  fastify-server.ts   # HTTP server
-  fastify.ts          # Entry point
+  index.ts                   # Entry point
+  server.ts                  # Fastify server factory
+  email.adapter.ts           # EmailSender interface
+  sender.factory.ts          # Decorator chain factory
+  schemas.ts                 # Zod schemas
+  errors.ts                  # Custom errors
+  providers/                 # Adapters (smtp, file, null)
+    index.ts
+    smtp.ts
+    file.ts
+    null.ts
+  decorators/                # Decorator wrappers
+    logging.sender.ts
+    retry.sender.ts
+    circuit-breaker.sender.ts
+  lib/
+    state-machine.ts         # Circuit breaker state machine
+  routes/
+    health.routes.ts
+    provider.routes.ts
+    user.routes.ts
+  services/
+    user.service.ts
 tests/
   providers.test.ts
   user.service.test.ts
   fastify.test.ts
+  lib/
+    state-machine.test.ts
+  routes/
+    health.routes.test.ts
+  decorators/
+    circuit-breaker.test.ts
+    logging-sender.test.ts
+    retry-sender.test.ts
+  integration/
+    circuit-breaker.integration.test.ts
+    smoke.integration.test.ts
+scripts/
+  circuit-breaker-demo.ts    # Standalone demo
 ```
