@@ -7,10 +7,7 @@
 		"format": "biome format --write",
 		"lint": "biome lint",
 		"check": "biome check --write",
-		"test": "npm --prefix projects/01-adapter-email run test:run",
-		"test:unit": "npm --prefix projects/01-adapter-email run test:unit",
-		"test:integration": "npm --prefix projects/01-adapter-email run test:integration",
-		"test:smoke": "npm --prefix projects/01-adapter-email run test:smoke",
+		"test": "echo \"Error: no test specified\" && exit 1",
 		"prepare": "husky"
 	},
 	"repository": {
