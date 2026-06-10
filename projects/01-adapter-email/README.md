@@ -30,8 +30,8 @@ Implementation of the **Adapter** pattern for email providers, with **Decorator*
 ## Setup
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
 ```
 
 ## Endpoints
@@ -47,19 +47,19 @@ npm run dev
 ## Scripts
 
 ```bash
-npm run dev                # Dev server with watch
-npm run build              # TypeScript compile
-npm run start              # Run compiled dist
+bun run dev                # Dev server with watch
+bun run build              # TypeScript compile
+bun run start              # Run compiled dist
 
 # Tests
-npm run test               # Vitest watch mode
-npm run test:run           # All tests (single run)
-npm run test:unit          # Unit tests only (excludes integration)
-npm run test:integration   # Integration tests (includes smoke)
-npm run test:smoke         # Smoke tests only
+bun run test               # Vitest watch mode
+bun run test:run           # All tests (single run)
+bun run test:unit          # Unit tests only (excludes integration)
+bun run test:integration   # Integration tests (includes smoke)
+bun run test:smoke         # Smoke tests only
 
 # Demo
-npm run demo               # Circuit breaker lifecycle demo
+bun run demo               # Circuit breaker lifecycle demo
 ```
 
 ## Environment Variables
